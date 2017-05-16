@@ -1,5 +1,6 @@
 package com.example.zhup0115.mycontactapp;
 
+import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -43,5 +44,30 @@ public class MainActivity extends AppCompatActivity {
             //create toast message to user indicating data inserted incorrectly
             Toast.makeText(getApplicationContext(), "NOT Success", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public void viewData(View v){
+        Cursor res = myDb.getAllData();
+        if (res.getCount() == 0){
+            showMessage ("Error","No data found in database");
+            // put a Log.d message and toast
+            return;
+        }
+        StringBuffer buffer = new StringBuffer();
+        //setup loop with cursor movetonext method while loop
+        // append each column(COL) to each buffer (use append method)
+        // use get string method
+        while (res.getCount()>0){
+
+        }
+
+
+
+        showMessage ("Data", buffer.toString());
+    }
+
+
+
+    private void showMessage(String error, String s) {
     }
 }
