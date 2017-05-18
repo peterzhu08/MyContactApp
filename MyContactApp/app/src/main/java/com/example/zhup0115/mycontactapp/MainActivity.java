@@ -17,6 +17,7 @@ public class MainActivity extends AppCompatActivity {
     EditText editName;
     EditText editAge;
     EditText editAddress;
+    EditText editSearch;
     Button btnAddData;
 
     @Override
@@ -29,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
         editName = (EditText)(findViewById(R.id.editName));
         editAge = (EditText)(findViewById(R.id.editAge));
         editAddress = (EditText)(findViewById(R.id.editAddress));
+        editSearch = (EditText)(findViewById(R.id.editSearch));
+
     }
 
     public void addData (View v){
@@ -49,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void viewData(View v){
         Cursor res = myDb.getAllData();
+
         if (res.getCount() == 0){
             showMessage ("Error","No data found in database");
             Log.d("MyContact", "No data found in database");
@@ -64,11 +68,43 @@ public class MainActivity extends AppCompatActivity {
         while (res.moveToNext()){
             for (int i = 1; i<=3 ; i++) {
                 buffer.append(res.getString(i));
-                buffer.append("/n");
+                buffer.append("\n");
             }
 
             buffer.append("\n");
 }
+        showMessage ("Data", buffer.toString());
+    }
+
+    public void searchData (View v){
+        Cursor res = myDb.getAllData();
+
+        if (res.getCount() == 0){
+            showMessage ("Error","No data found in database");
+            Log.d("MyContact", "No data found in database");
+            Toast.makeText(getApplicationContext(), "No data found in database", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        StringBuffer buffer = new StringBuffer();
+
+        res.moveToFirst();
+
+        while (res.moveToNext()){
+
+            for (int i = 1; i<=3 ; i++) {
+
+                if(res.getString(i).equals(editSearch.getText().toString())) {
+
+                    for (int j = 1; j <=3 ; j++){
+                        buffer.append(res.getString(j));
+                        buffer.append("\n");
+                    }
+                }
+            }
+
+            buffer.append("\n");
+        }
         showMessage ("Data", buffer.toString());
     }
 
